@@ -47,7 +47,13 @@
     <main>
       <!-- Product Section -->
       <section class="my-24">
-        <div class="container mx-auto px-2 md:px-0">
+        <div class="container mx-auto px-2 md:px-0 relative">
+          <div
+            class="absolute top-[98%] left-1/2 -translate-x-[98%] -translate-y-1/2 hidden"
+            id="loader"
+          >
+            <span class="loading loading-ring loading-lg"></span>
+          </div>
           <!-- Section Header -->
           <div class="md:w-1/3 mx-auto">
             <h2 class="text-xl md:text-3xl mb-6 font-bold text-center">
@@ -71,10 +77,12 @@
                   type="text"
                   class="grow"
                   placeholder="Search Your Phone"
+                  id="search-filed"
                 />
               </label>
               <button
                 class="btn bg-[#0D6EFD] text-white hover:bg-[#0D6EFD] w-fit"
+                onclick="searchdata()"
               >
                 Search
               </button>
@@ -83,9 +91,10 @@
           <!-- Phones -->
           <div
             class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+            id="phones-container"
           >
             <!-- Single Phone -->
-            <div class="card border p-6">
+            <!-- <div class="card border p-6">
               <div class="">
                 <figure class="p-10 bg-[#0D6EFD0D]">
                   <img
@@ -109,7 +118,14 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </div> -->
+          </div>
+          <div class="text-center my-6 hidden" id="show-all-btn">
+            <button
+              class="btn bg-[#0D6EFD] text-white hover:bg-[#0D6EFD] w-fit"
+            >
+              Show All
+            </button>
           </div>
         </div>
       </section>
