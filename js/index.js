@@ -47,7 +47,7 @@ let showData = (phones, isShowAllData) => {
       </p>
       <h4 class="my-3 text-lg font-bold">$999</h4>
       <button
-        class="btn bg-[#0D6EFD] text-white hover:bg-[#0D6EFD] w-fit"
+        class="btn bg-[#0D6EFD] text-white hover:bg-[#0D6EFD] w-fit" onclick="getSingledata('${phone.slug}')"
       >
         Show Details
       </button>
@@ -56,7 +56,6 @@ let showData = (phones, isShowAllData) => {
     
     `;
     phonesContainer.appendChild(phoneSingle);
-    console.log(phone);
   });
   loadingHandle(false);
 };
@@ -82,5 +81,69 @@ let loadingHandle = (status) => {
 let handleShowAllButton = () => {
   searchdata(true);
 };
+
+// Get Single Data
+let getSingledata = async (slug) => {
+  let singleRes = await fetch(
+    `https://openapi.programming-hero.com/api/phone/${slug}`
+  );
+  let singleData = await singleRes.json();
+  showDetailsModal(singleData.data);
+};
+
+//  Show Modal
+let showDetailsModal = (phone) => {
+  console.log(phone);
+
+  //  Inject data
+  let modalBox = document.getElementById("modalBox");
+  modalBox.innerHTML = `
+  <div class="">
+  <img
+    src="${phone.image}"
+    alt=""
+    class="w-1/2 mx-auto"
+  />
+  <div class="mt-8">
+    <h2 class="text-lg font-bold">${phone.name}</h2>
+    <p class="my-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum eum velit aliquid sint odit saepe distinctio culpa odio consectetur totam!</p>
+    <div class="space-y-2">
+      <p><span class="font-bold">Storage:</span> ${
+        phone?.mainFeatures?.storage ||
+        "Storage Isnot Available For This Device"
+      }</p>
+      <p><span class="font-bold">Display Size:</span> ${
+        phone?.mainFeatures?.displaySize || "Size Not Available"
+      }</p>
+      <p><span class="font-bold">Chip Set:</span> ${
+        phone?.mainFeatures?.chipSet || "Chip Set Info Not Available"
+      }</p>
+      <p><span class="font-bold">Memory :</span> ${
+        phone?.mainFeatures?.memory || "Memory Info Not Available"
+      }</p>
+      <p><span class="font-bold">Slug :</span> ${phone?.slug}</p>
+      <p><span class="font-bold">Release Date :</span> ${
+        phone?.releaseDate || "Release Date Not Available"
+      }</p>
+      <p><span class="font-bold">Brand :</span> ${
+        phone?.brand || "Not Available"
+      }</p>
+      <p><span class="font-bold">GPS :</span> ${
+        phone?.others?.GPS || "GPS Info Not Available"
+      }</p>
+    </div>
+  </div>
+</div>
+<div class="modal-action">
+  <form method="dialog">
+   
+    <button class="btn bg-red-600">Close</button>
+  </form>
+</div>
+  `;
+
+  show_detail_modal.showModal();
+};
+
 // iphone
-getPhones();
+getPhones("13");
