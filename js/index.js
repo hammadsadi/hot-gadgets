@@ -1,27 +1,28 @@
-async function getPhones(searchText) {
+async function getPhones(searchText, isShowAllData) {
   let res = await fetch(
     `https://openapi.programming-hero.com/api/phones?search=${searchText}`
   );
   let phones = await res.json();
-  showData(phones.data);
+  showData(phones.data, isShowAllData);
 }
 
-getPhones("iphone");
-
 // Show data
-let showData = (phones) => {
+let showData = (phones, isShowAllData) => {
   //  Get Parent Element
   let phonesContainer = document.getElementById("phones-container");
   phonesContainer.textContent = "";
   //   Show All Button Disable and Enable
   let showAllBtn = document.getElementById("show-all-btn");
-  if (phones.length > 10) {
+  if (phones.length > 10 && !isShowAllData) {
     showAllBtn.classList.remove("hidden");
   } else {
     showAllBtn.classList.add("hidden");
   }
   //   Show Specific Data
-  phones = phones.slice(0, 10);
+
+  if (!isShowAllData) {
+    phones = phones.slice(0, 10);
+  }
 
   phones.forEach((phone) => {
     // Create Element
@@ -57,18 +58,18 @@ let showData = (phones) => {
     phonesContainer.appendChild(phoneSingle);
     console.log(phone);
   });
-  loadingHamdle(false);
+  loadingHandle(false);
 };
 
 //  Search Data
-let searchdata = () => {
-  loadingHamdle(true);
+let searchdata = (isShowAllData) => {
+  loadingHandle(true);
   let searchFiled = document.getElementById("search-filed");
   let searchFiledValue = searchFiled.value;
-  getPhones(searchFiledValue);
+  getPhones(searchFiledValue, isShowAllData);
 };
 
-let loadingHamdle = (status) => {
+let loadingHandle = (status) => {
   let loader = document.getElementById("loader");
   if (status) {
     loader.classList.remove("hidden");
@@ -76,3 +77,10 @@ let loadingHamdle = (status) => {
     loader.classList.add("hidden");
   }
 };
+
+//  Handle Show All Btn
+let handleShowAllButton = () => {
+  searchdata(true);
+};
+// iphone
+getPhones();
